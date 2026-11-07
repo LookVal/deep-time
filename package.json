@@ -1,0 +1,48 @@
+{
+  "name": "deep-time",
+  "version": "0.1.0",
+  "description": "Format long durations the way humans say them: \"1.4 million years\", \"1 day 3 hours\", \"140万年\" - plural-correct in 14 languages, zero dependencies.",
+  "type": "module",
+  "main": "./src/index.mjs",
+  "exports": {
+    ".": {
+      "types": "./types.d.ts",
+      "default": "./src/index.mjs"
+    }
+  },
+  "files": [
+    "src",
+    "types.d.ts",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/deep-time.test.mjs"
+  },
+  "keywords": [
+    "time",
+    "duration",
+    "humanize",
+    "format",
+    "i18n",
+    "plural",
+    "locale",
+    "million-years",
+    "geologic-time"
+  ],
+  "author": {
+    "name": "LookVal",
+    "url": "https://lookval.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lookval/deep-time.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lookval/deep-time/issues"
+  },
+  "homepage": "https://github.com/lookval/deep-time#readme",
+  "engines": {
+    "node": ">=14"
+  }
+}
