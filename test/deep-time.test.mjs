@@ -42,19 +42,29 @@ test('rounds to 3 significant digits on compact units', () => {
 });
 
 // ── languages ────────────────────────────────────────────────────────────────
-test('pl: genitive plural for 5 years, noun form for 3', () => {
-  assert.equal(formatDuration(31557600 * 5, { locale: 'pl' }), '5 lat');
-  assert.equal(formatDuration(31557600 * 3, { locale: 'pl' }), '3 lata');
+test('plural forms follow Intl.PluralRules', () => {
+  assert.equal(formatDuration(31557600, { locale: 'es' }), '1 año');
+  assert.equal(formatDuration(31557600 * 5, { locale: 'es' }), '5 años');
+  assert.equal(formatDuration(31557600 * 5, { locale: 'de' }), '5 Jahre');
+  assert.equal(formatDuration(31557600 * 5, { locale: 'fr' }), '5 ans');
+  assert.equal(formatDuration(31557600 * 5, { locale: 'it' }), '5 anni');
+  // four-category languages pick a different noun for 1 / 3 / 5
   assert.equal(formatDuration(31557600, { locale: 'pl' }), '1 rok');
-  // the half goes to the smaller unit, not a fraction: 12 years 6 months
-  assert.equal(formatDuration(31557600 * 12.5, { locale: 'pl' }), '12 lat 6 miesięcy');
+  assert.equal(formatDuration(31557600 * 3, { locale: 'pl' }), '3 lata');
+  assert.equal(formatDuration(31557600 * 5, { locale: 'pl' }), '5 lat');
 });
 
-test('pl: decimal comma via numberFormat', () => {
+test('fractional years walk down to the next unit', () => {
+  // the half goes to the smaller unit, not a fraction: 12 years 6 months
+  assert.equal(formatDuration(31557600 * 12.5), '12 years 6 months');
+  assert.equal(formatDuration(31557600 * 12.5, { locale: 'es' }), '12 años 6 meses');
+});
+
+test('decimal comma via numberFormat', () => {
   const comma = (n) => String(n).replace('.', ',');
   assert.equal(
-    formatDuration(4.42e13, { locale: 'pl', numberFormat: comma }),
-    '1,4 miliona lat'
+    formatDuration(4.42e13, { locale: 'de', numberFormat: comma }),
+    '1,4 Millionen Jahre'
   );
 });
 
@@ -110,10 +120,13 @@ test('decompose gives raw split', () => {
 });
 
 test('unitsFor plural pick matches Intl.PluralRules', () => {
-  const w = unitsFor('pl');
-  assert.equal(w.format(1, 'year', String), '1 rok');
-  assert.equal(w.format(3, 'year', String), '3 lata');
-  assert.equal(w.format(5, 'year', String), '5 lat');
+  const es = unitsFor('es');
+  assert.equal(es.format(1, 'year', String), '1 año');
+  assert.equal(es.format(5, 'year', String), '5 años');
+  const pl = unitsFor('pl');
+  assert.equal(pl.format(1, 'year', String), '1 rok');
+  assert.equal(pl.format(3, 'year', String), '3 lata');
+  assert.equal(pl.format(5, 'year', String), '5 lat');
   // CJK: many == other
   const j = unitsFor('ja');
   assert.equal(j.listJoin, '');
