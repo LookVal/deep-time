@@ -9,8 +9,8 @@
  * The number-word separator and the list join differ per script:
  *   ja "1日3時間" (no space, no join), ko "1일 3시간" (space), en "1 day 3 hours".
  *
- * Big units are written as full phrases on purpose: "milion lat" (PL) needs
- * the count noun genitive, "million years" (EN) needs both words, so the
+ * Big units are written as full phrases on purpose: "millones de años" (ES)
+ * and "Millionen Jahre" (DE) both inflect the noun with the number, so the
  * entry is the whole tail of the sentence.
  *
  * `attach: true` = the number glues to the word with no space (Korean

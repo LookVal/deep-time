@@ -7,7 +7,7 @@ import { formatDuration } from 'deep-time';
 
 formatDuration(90);        // "1 minute 30 seconds"
 formatDuration(4.42e13);   // "1.4 million years"
-formatDuration(4.42e13, { locale: 'pl' });  // "1.4 miliona lat"
+formatDuration(4.42e13, { locale: 'de' });  // "1,4 Millionen Jahre"
 formatDuration(4.42e13, { locale: 'ja' });  // "140万年"
 formatDuration(4.42e13, { locale: 'hi' });  // "14 लाख वर्ष"
 ```
@@ -26,9 +26,9 @@ exactly that.
   units — `1 day 3 hours`, never `1 week 0 days 2 hours`.
 - **Above one year**: one unit, compact number — `1.4 million years`,
   not `1 year 4 months 2 weeks`. At that scale the tail is noise.
-- **Plural-correct** in 14 languages via `Intl.PluralRules`, including the
-  hard ones: Polish (`1 rok / 3 lata / 5 lat / 12.5 lat`), Spanish
-  (`millón/millones de años`), Slavic dual forms.
+- **Plural-correct** in 14 languages via `Intl.PluralRules` — German
+  `Million/Millionen Jahre`, Spanish `millón/millones de años`, and
+  languages with four plural categories (`1 rok / 3 lata / 5 lat`).
 - **Native numeric scales**: 1.4 million years is `140万年` in Japanese and
   `14.3억 년` in Korean (man/억 scale), `14 लाख वर्ष` in Hindi (lakh) —
   not an English calque. English is `1.4 million years`, as it should be.
@@ -66,9 +66,9 @@ comma:
 
 ```js
 formatDuration(4.42e13, {
-  locale: 'pl',
-  numberFormat: n => n.toLocaleString('pl-PL', { maximumFractionDigits: 1 }),
-}); // "1,4 miliona lat"
+  locale: 'de',
+  numberFormat: n => n.toLocaleString('de-DE', { maximumFractionDigits: 1 }),
+}); // "1,4 Millionen Jahre"
 ```
 
 ### `formatDurationShort(seconds, opts?)`
