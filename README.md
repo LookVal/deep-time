@@ -22,10 +22,13 @@ exactly that.
 
 - **Unit ladder**: second → minute → hour → day → week → month → year →
   millennium → million years → billion years.
-- **Below one year**: walks down the ladder for up to `maxParts` non-empty
-  units — `1 day 3 hours`, never `1 week 0 days 2 hours`.
-- **Above one year**: one unit, compact number — `1.4 million years`,
-  not `1 year 4 months 2 weeks`. At that scale the tail is noise.
+- **Below a millennium** (seconds … years): walks down the ladder for up to
+  `maxParts` non-empty units — `1 day 3 hours`, `12 years 6 months`, never
+  `1 week 0 days 2 hours`.
+- **From a millennium up**: one unit, compact number — `3 millennia`,
+  `1.4 million years`, not `1 million years 4 months 2 weeks`. At that scale
+  the tail is noise. Rounding never crosses a rung: 999.7 million years is
+  `1 billion years`, not `1000 million years`.
 - **Plural-correct** in 14 languages via `Intl.PluralRules` — German
   `Million/Millionen Jahre`, Spanish `millón/millones de años`, and
   languages with four plural categories (`1 rok / 3 lata / 5 lat`).
@@ -34,8 +37,8 @@ exactly that.
   not an English calque. English is `1.4 million years`, as it should be.
 - **Script-aware spacing**: Japanese glues (`1日1時間`), Korean attaches the
   numeral to the counter (`1일 1시간`), European languages space-separate.
-- **Zero dependencies**, ~250 lines, works in Node ≥ 14 and every browser
-  (plain ESM).
+- **Zero dependencies**, plain ESM, works in Node ≥ 18 (tested on 22) and
+  modern browsers.
 
 ## Install
 
@@ -57,12 +60,13 @@ formatDuration(4.42e13, { locale: 'de' }); // "1,4 Millionen Jahre" (see below)
 | Option | Default | What |
 |---|---|---|
 | `locale` | `'en'` | BCP-47 tag; unknown → `en`; `pt` → `pt-BR` data |
-| `maxParts` | `2` | units below one year (1–3); ignored above |
+| `maxParts` | `2` | units below a millennium (1–3); ignored at/above |
 | `numberFormat` | built-in | `(n, unit) => string` — decimal comma, grouping, digits |
 
 The built-in number style keeps 3 significant digits on compact units
-(`1.43 billion years`) and prints integers plain (`36 hours`). For a decimal
-comma:
+(`1.43 billion years`) and prints integers plain (`36 hours`). Sub-second
+values are plain decimal fractions of a second (`0.0000005 seconds`), never
+scientific notation. For a decimal comma:
 
 ```js
 formatDuration(4.42e13, {
@@ -99,7 +103,7 @@ locale — PRs welcome.
 ## Tests
 
 ```bash
-npm test   # 15 cases: ladder, plurals, native scales, script spacing, errors
+npm test   # ladder, plurals, native scales, spacing, rounding, errors
 ```
 
 ## Why

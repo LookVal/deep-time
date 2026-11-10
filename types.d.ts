@@ -6,7 +6,7 @@
 export interface FormatOptions {
   /** BCP-47 tag. One of the 14 supported, falls back to `en`. Default `en`. */
   locale?: string;
-  /** Units shown below one year: 1-3, default 2. Ignored above one year. */
+  /** Units shown below a millennium: 1-3, default 2. Ignored at/above it. */
   maxParts?: number;
   /**
    * Format the numeric part yourself (decimal comma, digit grouping...).
@@ -29,5 +29,3 @@ export declare function formatDuration(seconds: number, opts?: FormatOptions): s
 export declare function formatDurationShort(seconds: number, opts?: FormatOptions): string;
 export declare function decompose(seconds: number): Decomposed;
 export declare const SUPPORTED_LOCALES: string[];
-/** Durations below this (seconds) are caller's "moments" territory. */
-export declare const MIN_SHOWN: number;

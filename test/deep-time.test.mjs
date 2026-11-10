@@ -41,6 +41,20 @@ test('rounds to 3 significant digits on compact units', () => {
   assert.equal(formatDuration(3600 * 5, { maxParts: 1 }), '5 hours'); // integer, no rounding
 });
 
+test('rounding never crosses a unit boundary', () => {
+  // 999.7M years rounds to 1000M in the million rung -> promote to billion
+  assert.equal(formatDuration(31557600 * 999.7e6), '1 billion years');
+  assert.equal(formatDuration(31557600 * 999.7e3), '1 million years');
+  // the native-scale locales promote too instead of printing "99970万年"
+  assert.equal(formatDuration(31557600 * 999.7e6, { locale: 'ja' }), '10億年');
+});
+
+test('sub-second values stay out of scientific notation', () => {
+  assert.equal(formatDuration(0.5), '0.5 seconds');
+  assert.equal(formatDuration(1e-9), '0.000000001 seconds');
+  assert.equal(formatDuration(5e-7), '0.0000005 seconds');
+});
+
 // ── languages ────────────────────────────────────────────────────────────────
 test('plural forms follow Intl.PluralRules', () => {
   assert.equal(formatDuration(31557600, { locale: 'es' }), '1 año');

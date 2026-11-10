@@ -1,6 +1,6 @@
 {
   "name": "deep-time",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Format long durations the way humans say them: \"1.4 million years\", \"1 day 3 hours\", \"140万年\" - plural-correct in 14 languages, zero dependencies.",
   "type": "module",
   "main": "./src/index.mjs",
@@ -43,6 +43,6 @@
   },
   "homepage": "https://github.com/lookval/deep-time#readme",
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   }
 }
